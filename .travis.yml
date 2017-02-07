@@ -13,7 +13,7 @@ before_script:
 - bundle exec rake db:create
 - bundle exec rake db:migrate
 script:
-- bundle exec rake test
+- bundle exec rspec
 after_success:
 - curl -X POST -H 'Authorization:Bearer '$LINE_API_KEY -F "message=Success https://travis-ci.org/ryoutsugi/sample2/builds" 'https://notify-api.line.me/api/notify'
 after_failure:
