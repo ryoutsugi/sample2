@@ -1,0 +1,30 @@
+language: ruby
+rvm:
+- 2.3.3
+services:
+- postgresql
+env:
+  global:
+  - secure: d10Jvmzf/ey8C2jwKuwFBgcI6TQQCLL2QP2C74E0TREzQhi4pUGD4Y4xl9a1PfliqWnDFnAl0/+coQk2d4rwj8LwmKUMniUG3xzshIpHAYfyLJ1KSsqoISsIQfmpqG7IVmHf8uX8fQOdcpDOsNspgLKVYcOUz2sMxqjHNDbdmB3tCEoj+9p2VZzqSwHtMa6YDlkrtptbmYGnSyWx95FrTarfNUraead7UwQMlYJ5A2QQDEoEfkYHyhes4im69wX3L8yOaH0IyoqN4ffW+n6NhOkcdsbH4KheX6BXMCk29tW0PUKUxAyaEffQh08kiPt5A1Z1Q3VOX7qsSismfj0p6KHUl2VqLuX/4w+e0Lt3fINrWOfGk5D3uN8fBqcSskniILoyJ4yCf3p/A2vAugRoiAszalBFLIgSndOJ0BliR4zIzXXNrYXj/O1NidIlWGub7OTWg+hX8xN0tPM8MWWxgdja69WXB8GvVg9uymVgwqD9bz+TxJ6IkrruxFscqoiSD3RadsXHoN8LHL55/Zhr8uH8T0kKXsIHYRZBDHOazh5Pn0lfQj7Tc/oS9XRVggUxi7+gxUMzwaQmsD0b1+1ACBes9feA8q4BoxtirJ53ZIrNf4EegClz35ku/b+cBuc8falCuqxZDB8svX1JFQe5RPpf6/V3xaygqp8+U07Fa0M=
+bundler_args: "--without development --deployment"
+cache: bundler
+before_script:
+- cp config/database.travis.yml config/database.yml
+- bundle exec rake db:create
+- bundle exec rake db:migrate
+script:
+- bundle exec rake test
+after_success:
+- curl -X POST -H 'Authorization:Bearer '$LINE_API_KEY -F "message=Success https://travis-ci.org/ryoutsugi/sample2/builds" 'https://notify-api.line.me/api/notify'
+after_failure:
+- curl -X POST -H 'Authorization:Bearer '$LINE_API_KEY -F "message=Failure https://travis-ci.org/ryoutsugi/sample2/builds" 'https://notify-api.line.me/api/notify'
+deploy:
+  provider: heroku
+  api_key:
+    secure: EGpbwqhJ0uXiUEdEflWlKzvXk/UYIFHgUgWd/g07hDX9SEYtjSKoOP9+JeUyCH1wFy66fn+rSePEpWV5a1QJddjOxxgW4NYY7i4IfQoAVjjDIjrNkjFMK7jId5BgVbXVwAy7nqe2EdTu26RXfDIHWmwDkzSbrADUVV6GT9ArQEYbuH+mG83+SQtT+F4WTsJt29lFT26bi7yXI3jof96NuigRmYTFLVbW0tT9p/DiRAAQQ8Gw5TGj7oDa+x2FzLPwkvDoA78j9FczJnlfP8pwqCf9a4yr1QRocoz9BqJBBvcLKfbAVS1XugFyc4qyguzJUMR3hclLIgvcsQgBH5N0KxwB32+1mbgLkf2hnU1MkQAzquRfJDoykYdZFRAECYuQteyZFOeuXirpZXCjE+XWzS1pkxcsDbNpCuOzFjtR9MlGd3v4SEiRqcF2VQapY29Wh6A07YtEnLRq8riYZCz0GsG+gDfUYeYTgnIcfRxjHUoKednaMUr/rrVfLPvybZmy/sxlMwv+XwGCTo0Mhq9aY4JttbkHNMYqTT8bwFMITuqsWIW126D0HuIbQIAYdxJyZHo74mum4wtplu3dyFPMZmMbGNZVrwc0dp8ONi4TUuqXaQajOtVPHz/GaIX49vJ/SPzjoDHJLSpCtGokHTZC2RazK7Ict/PFJ3qX/axc9yg=
+  run: "rake db:migrate"
+  app: rocky-caverns-63284
+  on:
+    repo: ryoutsugi/sample2
+after_deploy:
+- curl -X POST -H 'Authorization:Bearer '$LINE_API_KEY -F "message=DeploySuccess https://rocky-caverns-63284.herokuapp.com" 'https://notify-api.line.me/api/notify'
