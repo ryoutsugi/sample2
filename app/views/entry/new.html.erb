@@ -1,0 +1,10 @@
+<%= form_for @entry,:url => {:action => 'create'} do |f| %>
+
+  <div class="field">
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.text_area :entrybody%>
+  </div>
+    <%= f.submit %>
+  <% end %>

@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  root :to => 'top#index'
+  root :to => 'entry#index'
+
+  get '/entries/:id', to:'entry#show' , as:'entry'
+
+  get '/entry/new',   to:'entry#new',   as:'new_entry'
+
+  post '/entry/create' ,to:'entry#create' , as:'post_entry'
+
   devise_for :users
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
