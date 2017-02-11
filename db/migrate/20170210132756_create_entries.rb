@@ -3,7 +3,7 @@ class CreateEntries < ActiveRecord::Migration
     create_table :entries do |t|
       t.string :name
       t.string :entrybody
-
+      t.references :category
       t.timestamps null: false
     end
   end

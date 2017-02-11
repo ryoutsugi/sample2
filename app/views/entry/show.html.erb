@@ -9,3 +9,4 @@
 </p>
 <%= link_to '戻る', root_path %>
 <%= link_to '編集', edit_entry_path %>
+<%= link_to '削除', destroy_entry_path, :method => 'delete', data: { confirm: '削除しますか?' } %>

@@ -16,10 +16,22 @@ class EntryController < ApplicationController
   end
 
   def update
-
+    entry = params.require(:entry).permit(:name, :entrybody)
+    entry = Entry.new(entry)
+    if entry.save
+       redirect_to entry
+     else
+       render :edit
+     end
   end
 
   def destroy
+    entry = Entry.find(params[:id])
+    entry.destroy
+
+    redirect_to root_path, notice: '削除されました'
+
+
   end
 
   def create
