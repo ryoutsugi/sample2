@@ -12,10 +12,11 @@ class EntryController < ApplicationController
   end
 
   def edit
-    @entry =  Entry.find(params[:id])
+    @entry = Entry.find(params[:id])
   end
 
   def update
+
   end
 
   def destroy

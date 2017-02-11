@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
   root :to => 'entry#index'
 
-  get '/entry/:id',     to:'entry#show',   as:'entry'
+  get '/entry/:id',       to:'entry#show',   as:'entry'
 
-  get '/entry/new',     to:'entry#new',    as:'new_entry'
+  get '/entry/new',       to:'entry#new',    as:'new_entry'
 
-  get '/entry/edit/:id',     to:'entry#edit',   as:'edit_entry'
+  get '/entry/edit/:id',  to:'entry#edit',   as:'edit_entry'
 
-  post '/entry/create', to:'entry#create', as:'create_entry'
+  post '/entry/create',   to:'entry#create', as:'create_entry'
+
+  put '/entry/update/:id',to:'entry#update', as:'update_entry'
 
   devise_for :users
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
