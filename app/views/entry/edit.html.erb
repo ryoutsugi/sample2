@@ -1,4 +1,5 @@
-<%= form_for @entry, :url => update_entry_path do |f| %>
+<%= form_for @entry, :url => update_entry_path , :method => 'put' do |f| %>
+
    <div>
      <%= f.text_field :name %>
    </div>
