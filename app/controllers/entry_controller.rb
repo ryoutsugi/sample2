@@ -35,7 +35,7 @@ class EntryController < ApplicationController
   end
 
   def create
-    entry = params.require(:entry).permit(:name, :entrybody)
+    entry = params.require(:entry).permit(:name, :entrybody, :category_id)
     entry = Entry.new(entry)
     if entry.save
       redirect_to entry
