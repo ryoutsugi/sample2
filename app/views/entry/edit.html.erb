@@ -6,6 +6,10 @@
    <div>
      <%= f.text_field :entrybody %>
    </div>
+   <div class="field">
+   カテゴリ<br>
+   <%= f.collection_select :category_id, Category.all, :id, :name %>
+   </div>
   <%= f.submit %>
 <% end %>
 

@@ -5,6 +5,7 @@ class EntryController < ApplicationController
 
   def show
     @entry = Entry.find(params[:id])
+
   end
 
   def new
@@ -13,10 +14,11 @@ class EntryController < ApplicationController
 
   def edit
     @entry = Entry.find(params[:id])
+    ##@category = Category.find(params[:'@entry.category_id'])カテゴリ名取りたいけどできん
   end
 
   def update
-    entry = params.require(:entry).permit(:name, :entrybody)
+    entry = params.require(:entry).permit(:name, :entrybody, :category_id)
     entry = Entry.new(entry)
     if entry.save
        redirect_to entry
